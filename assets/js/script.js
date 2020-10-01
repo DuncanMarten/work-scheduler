@@ -7,24 +7,29 @@ setDay();
 
 var currentTime = moment().format("LT");
 
-// var auditHour = function() {
-//     var hour = $(".container").find(".time").text().trim();
-//     var time = moment(hour, "LT");
-    
-//     console.log(time);
-//     $(".time").removeClass("past present future");
 
-//     if (moment().isAfter(time)) {
-//         $(".description").addClass("past");
-//     }
-//     else if(moment().isBefore(time)) {
-//         $(".description").addClass("future");
-//     }
-//     else if(moment().is(time)) {
-//         $(".description").addClass("present");
-//     }
-// }
-// auditHour();
+// update textarea to show if 
+var auditHour = function() {
+
+    var spanVal = document.querySelectorAll("span");
+
+    for (var i = 0; i < spanVal.length; i++) {
+        var hour = $(spanVal[i]).text();
+        console.log(hour);
+        $("textarea").removeClass("past present future");
+
+        if (moment().isAfter(hour)) {
+            $("textarea").addClass("past");
+        }
+        else if(moment().isBefore(hour)) {
+            $("textarea").addClass("future");
+        }
+        //else if(moment().is(spanVal)) {
+            //$("textarea").addClass("present");
+        //}
+    }
+}
+auditHour();
 
 
 
@@ -45,3 +50,5 @@ var currentTime = moment().format("LT");
 //     localStorage.setItem("tasklist", JSON.stringify(list));
 
 // });
+
+var timeTask = [];
