@@ -17,7 +17,7 @@ var auditHour = function() {
     
     // loop through spanVal array to find value of all span elements
     for (var i = 0; i < spanVal.length; i++) {
-        
+
         // set hour to text content of each span element
         var hour = $(spanVal[i]).text().trim();
         
@@ -26,10 +26,16 @@ var auditHour = function() {
         
         // clear designated classes from textarea element
         $(".task" + i).removeClass("past present future");
-    
+        console.log(Math.abs(moment().diff(time, "hour")) === 0);
 
+        
+        // assign .present if time is equal to moment
+        if(Math.abs(moment().diff(time, "hour")) === 0) {
+            $(".task" + i).addClass("present");
+       }
+        
         // assign .past if time has passed
-        if(moment().isAfter(time)) {
+        else if(moment().isAfter(time)) {
             $(".task" + i).addClass("past");
         }
 
@@ -38,9 +44,6 @@ var auditHour = function() {
             $(".task" + i).addClass("future");
         }
 
-        else if(Math.abs(moment().diff(time, "hours")) <= 1) {
-             $("textarea").addClass("present");
-        }
     }
 }
 
@@ -54,10 +57,12 @@ $("textarea").each(function(i) {
         var list = $(".task" + i).val();
         // set place to .task plus index
         var place = ".task" + i;
-        
+        console.log(timeTask);
+
         // push variables to arrays
         timeTask.push(list);
         placeTask.push(place);
+        console.log(timeTask);
 
         // store arrays locally
         localStorage.setItem("tasklist", JSON.stringify(timeTask));
@@ -66,16 +71,21 @@ $("textarea").each(function(i) {
 })
 
 // Render localstorage task list
-function renderTasks(timeTask) {
+function renderTasks() {
     
     // pull and parse localStorage into tasks
-    var timeTask = JSON.parse(localStorage.getItem("tasklist"));
-    var placeTask = JSON.parse(localStorage.getItem("placement"));
+    timeTask = JSON.parse(localStorage.getItem("tasklist"));
+    placeTask = JSON.parse(localStorage.getItem("placement"));
     
     // Loop through each task array item
     for (i = 0; i < timeTask.length; i++) {
         // append task text to placement id
         $(placeTask[i]).append(timeTask[i]);
+    }
+
+    if(!timeTask || !placeTask) {
+        timeTask = [];
+        placeTask = [];
     }
 }
 
